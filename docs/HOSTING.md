@@ -276,7 +276,7 @@ mysql -u USER -p DATABASE < backup_20260628.sql
 
 | Masalah | Solusi |
 |---------|--------|
-| HTTP 500 | `php scripts/diagnose-500.php`; cek `storage/logs/laravel.log` |
+| HTTP 500 | `php scripts/diagnose-500.php`; cek `storage/logs/laravel.log`; jalankan `bash scripts/fix-hosting-500.sh` |
 | Blank / 403 | Document root harus `public/`; cek `.htaccess` |
 | `vendor/` missing | `composer install --no-dev --no-scripts` di server atau upload dari PC |
 | Composer gagal `proc_open` | Pakai flag `--no-scripts`, lalu `composer dump-autoload --optimize --no-scripts`. File `bootstrap/cache/packages.php` sudah disertakan di repo |
