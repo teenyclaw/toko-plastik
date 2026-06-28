@@ -15,13 +15,18 @@ fi
 
 if [[ ! -f vendor/autoload.php ]]; then
   if command -v composer >/dev/null 2>&1; then
-    composer install --no-dev --optimize-autoloader --no-interaction
+    composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
   elif [[ -f ~/composer.phar ]]; then
-    php ~/composer.phar install --no-dev --optimize-autoloader --no-interaction
+    php ~/composer.phar install --no-dev --optimize-autoloader --no-interaction --no-scripts
   else
     echo "ERROR: vendor/ missing and composer not found."
     exit 1
   fi
+  composer dump-autoload --optimize --no-scripts 2>/dev/null || true
+fi
+
+if [[ ! -f bootstrap/cache/packages.php ]]; then
+  php artisan package:discover --ansi || true
 fi
 
 php artisan migrate --force --no-interaction

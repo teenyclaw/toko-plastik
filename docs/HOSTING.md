@@ -31,7 +31,8 @@ scripts\prepare-upload.bat
 Atau manual:
 
 ```bash
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --optimize-autoloader --no-scripts
+composer dump-autoload --optimize --no-scripts
 ```
 
 ### 2. Upload ke server
@@ -193,7 +194,8 @@ git clone <repo-url> toko-plastik
 cd toko-plastik
 cp .env.example .env
 # edit .env ...
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --optimize-autoloader --no-scripts
+composer dump-autoload --optimize --no-scripts
 php artisan key:generate
 bash scripts/deploy-on-server.sh
 php artisan db:seed --force
@@ -231,7 +233,9 @@ SSL: `sudo certbot --nginx -d toko.domain.com`
 ```bash
 cd ~/toko-plastik
 git pull   # jika pakai git
-composer install --no-dev --optimize-autoloader
+composer install --no-dev --optimize-autoloader --no-scripts
+composer dump-autoload --optimize --no-scripts --no-scripts
+composer dump-autoload --optimize --no-scripts
 php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
@@ -274,7 +278,8 @@ mysql -u USER -p DATABASE < backup_20260628.sql
 |---------|--------|
 | HTTP 500 | `php scripts/diagnose-500.php`; cek `storage/logs/laravel.log` |
 | Blank / 403 | Document root harus `public/`; cek `.htaccess` |
-| `vendor/` missing | `composer install --no-dev` di server atau upload dari PC |
+| `vendor/` missing | `composer install --no-dev --no-scripts` di server atau upload dari PC |
+| Composer gagal `proc_open` | Pakai flag `--no-scripts`, lalu `composer dump-autoload --optimize --no-scripts`. File `bootstrap/cache/packages.php` sudah disertakan di repo |
 | Login loop / session hilang | `APP_URL` harus exact match (http vs https); `SESSION_DRIVER=file` |
 | CSS/JS 404 | Pastikan docroot = `public/`; jangan cache config sebelum `.env` benar |
 | Database error | Cek kredensial DB di cPanel; host biasanya `localhost` |

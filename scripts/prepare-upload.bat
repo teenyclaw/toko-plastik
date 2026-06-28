@@ -9,8 +9,10 @@ if errorlevel 1 (
   exit /b 1
 )
 
-call composer install --no-dev --optimize-autoloader --no-interaction
+call composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 if errorlevel 1 exit /b 1
+
+call composer dump-autoload --optimize --no-scripts
 
 php artisan config:clear
 php artisan route:clear
